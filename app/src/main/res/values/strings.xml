@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Movies Pal</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="error">Error!</string>
+    <string name="error_loading">Error while loading movies</string>
+    <string name="action_filter">Filter</string>
+    <string name="filter_movies">Filter Movies</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="movie_backdrop">Movie Backdrop</string>
+    <string name="view_on_imdb">View on IMDB</string>
+    <string name="error_occurred">An error has occurred..</string>
+    <string name="no_id">No movie id. Exiting!</string>
+    <string name="no_internet">No Internet</string>
+    <string name="no_internet_desc">You are not connected to the internet. please check your connection and try again</string>
+    <string name="retry">Retry</string>
+    <string name="quit">Quit</string>
+</resources>
