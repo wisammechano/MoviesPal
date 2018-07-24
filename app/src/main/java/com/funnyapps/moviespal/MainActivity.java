@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         pbWrapper = findViewById(R.id.pb_container);
 
         int span = 3;
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             span = 6;
         }
         rv.setLayoutManager(new GridLayoutManager(this, span));
@@ -91,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(MOVIES)){
+        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIES)) {
             Gson gson = new Gson();
             Movie[] movies = gson.fromJson(savedInstanceState.getString(MOVIES), Movie[].class);
             adapter.setItems(Arrays.asList(movies));
             rv.setScrollY(savedInstanceState.getInt(SCROLL_POS));
-            if(savedInstanceState.containsKey(FILTER)) {
+            if (savedInstanceState.containsKey(FILTER)) {
                 for (Filter f : Filter.values()) {
                     if (getString(f.getFilterId()).equals(savedInstanceState.getString(FILTER))) {
                         currentFilter = f;
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     adapter.setItems(movies.getResults());
                 }
                 isLoading = false;
-                if(pbWrapper.getVisibility() == View.VISIBLE){
+                if (pbWrapper.getVisibility() == View.VISIBLE) {
                     pbWrapper.setVisibility(View.GONE);
                     rv.setVisibility(View.VISIBLE);
                 }
@@ -221,32 +221,32 @@ public class MainActivity extends AppCompatActivity {
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
                 init();
+                return;
             }
-        } else {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setCancelable(false);
-            dialog.setTitle(R.string.no_internet);
-            dialog.setMessage(R.string.no_internet_desc);
-            dialog.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    isConnected();
-                }
-            });
-            dialog.setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            dialog.create().show();
         }
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.no_internet);
+        dialog.setMessage(R.string.no_internet_desc);
+        dialog.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                isConnected();
+            }
+        });
+        dialog.setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        dialog.create().show();
     }
 
     @Override
     protected void onDestroy() {
-        if(filterDialog != null && filterDialog.isShowing())
+        if (filterDialog != null && filterDialog.isShowing())
             filterDialog.dismiss();
         super.onDestroy();
     }
