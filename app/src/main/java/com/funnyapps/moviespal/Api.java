@@ -40,7 +40,7 @@ public final class Api {
 
     private static Api instance = null;
 
-    public static Api getInstance() {
+    public synchronized static Api getInstance() {
         if (instance == null) {
             instance = new Api();
         }
