@@ -1,12 +1,14 @@
 
-package com.funnyapps.moviespal;
+package com.funnyapps.moviespal.Models;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Genre {
+public class Genre implements Serializable {
 
     @Expose
     private Long id;

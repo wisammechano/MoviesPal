@@ -1,4 +1,4 @@
-package com.funnyapps.moviespal;
+package com.funnyapps.moviespal.Models;
 
 import com.google.gson.annotations.Expose;
 

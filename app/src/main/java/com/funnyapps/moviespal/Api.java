@@ -2,6 +2,12 @@ package com.funnyapps.moviespal;
 
 import android.net.Uri;
 
+import com.funnyapps.moviespal.Models.Genre;
+import com.funnyapps.moviespal.Models.GenresResponse;
+import com.funnyapps.moviespal.Models.Movie;
+import com.funnyapps.moviespal.Models.PaginatedResponse;
+import com.funnyapps.moviespal.Models.Review;
+import com.funnyapps.moviespal.Models.Video;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 
@@ -34,6 +40,9 @@ public final class Api {
 
     private static final String MOVIES = "movie/";
     private static final String GENRES = "genre/";
+    private static final String REVIEWS = "/reviews";
+    private static final String VIDEOS = "/videos";
+
     private static final String LIST = "list";
     private static final String POPULAR = "popular/";
     private static final String TOP_RATED = "top_rated/";
@@ -85,7 +94,11 @@ public final class Api {
         Call<PaginatedResponse<Movie>> getTopRatedMovies(@Query("page") Long page);
 
         @GET(MOVIES + "{id}")
-        Call<MovieDetails> getMovie(@Path("id") Long movieId);
+        Call<Movie> getMovie(@Path("id") Long movieId);
+        @GET(MOVIES + "{id}" + REVIEWS)
+        Call<PaginatedResponse<Review>> getMovieReviews(@Path("id") Long movieId, @Query("page") Long page);
+        @GET(MOVIES + "{id}" + VIDEOS)
+        Call<PaginatedResponse<Video>> getMovieVideos(@Path("id") Long movieId);
 
         @GET(GENRES + LIST)
         Call<GenresResponse> getGenres();

@@ -1,7 +1,6 @@
 package com.funnyapps.moviespal;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.funnyapps.moviespal.Models.Movie;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MovieThumbsAdapter extends RecyclerView.Adapter<MovieThumbsAdapter.ViewHolder> {
+    public static final float THUMB_WIDTH = 342; //Related to getImageMdUrl() from below.
     private Context ctx;
     private List<Movie> items;
     private View.OnClickListener onItemClickListener;
+    private View.OnLongClickListener onLongClickListener;
 
     MovieThumbsAdapter(Context ctx) {
         this.ctx = ctx;
@@ -28,6 +30,7 @@ class MovieThumbsAdapter extends RecyclerView.Adapter<MovieThumbsAdapter.ViewHol
     }
 
     public void setItems(List<Movie> items) {
+        this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
     }
@@ -44,12 +47,13 @@ class MovieThumbsAdapter extends RecyclerView.Adapter<MovieThumbsAdapter.ViewHol
         final ViewHolder finalVH = holder;
 
         if(onItemClickListener != null){
-            holder.thumbIv.setTag(items.get(position).getId());
+            holder.thumbIv.setTag(position);
             holder.thumbIv.setOnClickListener(onItemClickListener);
+            holder.thumbIv.setOnLongClickListener(onLongClickListener);
         }
 
-        Uri path = items.get(position).getPosterPath();
-        Picasso.with(ctx).load(Api.getImageMdUri(path.toString())).into(holder.thumbIv, new Callback() {
+        String path = items.get(position).getPosterPath();
+        Picasso.with(ctx).load(Api.getImageMdUri(path)).into(holder.thumbIv, new Callback() {
             @Override
             public void onSuccess() {
                 finalVH.loadingPb.setVisibility(View.GONE);
@@ -82,6 +86,10 @@ class MovieThumbsAdapter extends RecyclerView.Adapter<MovieThumbsAdapter.ViewHol
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbIv;
         ProgressBar loadingPb;
@@ -89,7 +97,7 @@ class MovieThumbsAdapter extends RecyclerView.Adapter<MovieThumbsAdapter.ViewHol
 
         ViewHolder(View itemView) {
             super(itemView);
-            thumbIv = itemView.findViewById(R.id.thumbnail_iv);
+            thumbIv = itemView.findViewById(R.id.movie_poster);
             loadingPb = itemView.findViewById(R.id.loading_pb);
             errorTv = itemView.findViewById(R.id.error_tv);
         }

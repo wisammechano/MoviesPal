@@ -1,5 +1,5 @@
 
-package com.funnyapps.moviespal;
+package com.funnyapps.moviespal.Models;
 
 import java.util.List;
 import javax.annotation.Generated;

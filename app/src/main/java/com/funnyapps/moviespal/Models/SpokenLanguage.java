@@ -1,25 +1,27 @@
 
-package com.funnyapps.moviespal;
+package com.funnyapps.moviespal.Models;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class ProductionCountry {
+public class SpokenLanguage implements Serializable{
 
-    @SerializedName("iso_3166_1")
-    private String iso31661;
+    @SerializedName("iso_639_1")
+    private String iso6391;
     @Expose
     private String name;
 
-    public String getIso31661() {
-        return iso31661;
+    public String getIso6391() {
+        return iso6391;
     }
 
-    public void setIso31661(String iso31661) {
-        this.iso31661 = iso31661;
+    public void setIso6391(String iso6391) {
+        this.iso6391 = iso6391;
     }
 
     public String getName() {

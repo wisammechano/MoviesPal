@@ -7,12 +7,23 @@
     <string name="filter_movies">Filter Movies</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="collection">Your Collection</string>
     <string name="movie_backdrop">Movie Backdrop</string>
-    <string name="view_on_imdb">View on IMDB</string>
+    <string name="view_on_imdb">View on </string>
     <string name="error_occurred">An error has occurred..</string>
     <string name="no_id">No movie id. Exiting!</string>
     <string name="no_internet">No Internet</string>
     <string name="no_internet_desc">You are not connected to the internet. please check your connection and try again</string>
     <string name="retry">Retry</string>
+    <string name="show_fav">My Collection</string>
     <string name="quit">Quit</string>
+    <string name="play_trailer">Play Trailer</string>
+    <string name="reviews">Reviews</string>
+    <string name="loading">Loading..</string>
+    <string name="no_reviews">No Reviews</string>
+    <string name="activity_image_trans">movie_poster_transition</string>
+    <string name="added_to_coll">Added to your collection!</string>
+    <string name="undo">Undo</string>
+    <string name="removed_from_coll">Removed from your collection!</string>
+    <string name="in_collection">Already in your collection!</string>
 </resources>

@@ -5,52 +5,73 @@
 
         <variable
             name="Movie"
-            type="com.funnyapps.moviespal.MovieDetails" />
+            type="com.funnyapps.moviespal.Models.Movie" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/coordinator"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context=".DetailsActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="top"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:visibility="gone" />
-
-        <ScrollView
-            android:id="@+id/root"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="?actionBarSize"
-            android:visibility="gone"
-            tools:visibility="visible">
+            app:elevation="4dp">
 
-            <LinearLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@id/main_toolbar">
 
                 <ImageView
                     android:id="@+id/movie_backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:contentDescription="@string/movie_backdrop"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/main_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="top"
+                    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating_fav_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_favorite_border"
+            app:layout_anchor="@id/appbar_main"
+            app:layout_anchorGravity="bottom|end" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
 
                 <TextView
                     android:id="@+id/original_title_tv"
@@ -58,23 +79,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:text="@{Movie.originalTitle}"
                     android:layout_marginTop="16dp"
                     android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@{Movie.tagline}"
                     android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@{Movie.genresString}"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,12 +109,15 @@
                         android:id="@+id/movie_poster"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:layout_margin="16dp"
-                        android:contentDescription="@string/movie_poster" />
+                        android:contentDescription="@string/movie_poster"
+                        android:transitionName="@string/activity_image_trans" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
                         android:layout_margin="16dp"
                         android:orientation="vertical">
 
@@ -124,14 +150,30 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:text="@{Movie.spokenLanguagesString}"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
-                        <Button
-                            android:id="@+id/imdb_b"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end|bottom"
-                            android:text="@string/view_on_imdb" />
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/imdb_b"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end|bottom"
+                                android:drawableEnd="@drawable/ic_imdb_36p"
+                                android:drawablePadding="8dp"
+                                android:text="@string/view_on_imdb" />
+
+                            <Button
+                                android:id="@+id/show_reviews"
+                                android:layout_width="110dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="start|bottom"
+                                android:text="@string/loading" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -141,7 +183,14 @@
                     android:layout_margin="16dp"
                     android:text="@{Movie.overview}"
                     android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/videos_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
             </LinearLayout>
-        </ScrollView>
-    </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

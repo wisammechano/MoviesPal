@@ -1,5 +1,5 @@
 
-package com.funnyapps.moviespal;
+package com.funnyapps.moviespal.Models;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
