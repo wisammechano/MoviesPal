@@ -25,13 +25,13 @@ public class DetailsVM extends AndroidViewModel {
     private MutableLiveData<Movie> movie;
     private MutableLiveData<List<Review>> reviews;
     private MutableLiveData<List<Video>> videos;
-    //private LiveData<List<Movie>> collection;
+    private LiveData<List<Movie>> collection;
     private MoviesDatabase db;
 
     public DetailsVM(@NonNull Application application, long movieId) {
         super(application);
         db = MoviesDatabase.getInstance(this.getApplication());
-        //collection = db.moviesDao().getFavMovies();
+        collection = db.moviesDao().getFavMovies();
         movie = new MutableLiveData<>();
         reviews = new MutableLiveData<>();
         videos = new MutableLiveData<>();
@@ -100,9 +100,9 @@ public class DetailsVM extends AndroidViewModel {
     }
 
 
-    /*public LiveData<List<Movie>> getCollection() {
+    public LiveData<List<Movie>> getCollection() {
         return collection;
-    }*/
+    }
 
     public LiveData<Movie> getMovie() {
         return movie;

@@ -85,6 +85,19 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
         }
 
         binding.floatingFavB.setOnClickListener(getFavButtonClickListener());
+
+        detailsVM.getCollection().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                if (movies == null) return;
+                if (movies.contains(movie)) {
+                    isFav = true;
+                } else {
+                    isFav = false;
+                }
+                toggleFav();
+            }
+        });
     }
 
     private Observer<List<Video>> getVideosObserver() {
@@ -205,15 +218,13 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
                     public void run() {
                         if (isFav) {
                             detailsVM.getDb().moviesDao().deleteFav(movie);
-                            runOnUiThread(getUnFavIconRunnable());
                         } else {
                             detailsVM.getDb().moviesDao().insertFav(movie);
-                            runOnUiThread(getFavIconRunnable());
                         }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Snackbar.make(binding.coordinator, !isFav ? R.string.removed_from_coll : R.string.added_to_coll, Snackbar.LENGTH_LONG)
+                                Snackbar.make(binding.coordinator, isFav ? R.string.removed_from_coll : R.string.added_to_coll, Snackbar.LENGTH_LONG)
                                         .setAction(R.string.undo, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -222,15 +233,13 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
                                                     public void run() {
                                                         if (!isFav) {
                                                             detailsVM.getDb().moviesDao().insertFav(movie);
-                                                            runOnUiThread(getFavIconRunnable());
                                                         } else {
                                                             detailsVM.getDb().moviesDao().deleteFav(movie);
-                                                            runOnUiThread(getUnFavIconRunnable());
                                                         }
                                                         runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                Snackbar.make(binding.coordinator, isFav ? R.string.added_to_coll : R.string.removed_from_coll, Snackbar.LENGTH_LONG).show();
+                                                                Snackbar.make(binding.coordinator, !isFav ? R.string.added_to_coll : R.string.removed_from_coll, Snackbar.LENGTH_LONG).show();
                                                             }
                                                         });
                                                     }
@@ -246,22 +255,11 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
         };
     }
 
-    public Runnable getFavIconRunnable(){
-        return new Runnable() {
-            @Override
-            public void run() {
-                binding.floatingFavB.setImageResource(R.drawable.ic_favorite);
-                isFav = true;
-            }
-        };
-    }
-    public Runnable getUnFavIconRunnable(){
-        return new Runnable() {
-            @Override
-            public void run() {
-                binding.floatingFavB.setImageResource(R.drawable.ic_favorite_border);
-                isFav = false;
-            }
-        };
+    public void toggleFav() {
+        if (isFav) {
+            binding.floatingFavB.setImageResource(R.drawable.ic_favorite);
+        } else {
+            binding.floatingFavB.setImageResource(R.drawable.ic_favorite_border);
+        }
     }
 }
