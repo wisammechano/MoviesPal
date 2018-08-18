@@ -205,12 +205,10 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
                     public void run() {
                         if (isFav) {
                             detailsVM.getDb().moviesDao().deleteFav(movie);
-                            binding.floatingFavB.setImageResource(R.drawable.ic_favorite_border);
-                            isFav = false;
+                            runOnUiThread(getUnFavIconRunnable());
                         } else {
                             detailsVM.getDb().moviesDao().insertFav(movie);
-                            binding.floatingFavB.setImageResource(R.drawable.ic_favorite);
-                            isFav = true;
+                            runOnUiThread(getFavIconRunnable());
                         }
                         runOnUiThread(new Runnable() {
                             @Override
@@ -224,12 +222,10 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
                                                     public void run() {
                                                         if (!isFav) {
                                                             detailsVM.getDb().moviesDao().insertFav(movie);
-                                                            binding.floatingFavB.setImageResource(R.drawable.ic_favorite);
-                                                            isFav = true;
+                                                            runOnUiThread(getFavIconRunnable());
                                                         } else {
                                                             detailsVM.getDb().moviesDao().deleteFav(movie);
-                                                            binding.floatingFavB.setImageResource(R.drawable.ic_favorite_border);
-                                                            isFav = false;
+                                                            runOnUiThread(getUnFavIconRunnable());
                                                         }
                                                         runOnUiThread(new Runnable() {
                                                             @Override
@@ -246,6 +242,25 @@ public class DetailsActivity extends AppCompatActivity implements Observer<Movie
                         });
                     }
                 });
+            }
+        };
+    }
+
+    public Runnable getFavIconRunnable(){
+        return new Runnable() {
+            @Override
+            public void run() {
+                binding.floatingFavB.setImageResource(R.drawable.ic_favorite);
+                isFav = true;
+            }
+        };
+    }
+    public Runnable getUnFavIconRunnable(){
+        return new Runnable() {
+            @Override
+            public void run() {
+                binding.floatingFavB.setImageResource(R.drawable.ic_favorite_border);
+                isFav = false;
             }
         };
     }
